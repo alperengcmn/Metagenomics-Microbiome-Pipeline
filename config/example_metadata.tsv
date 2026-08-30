@@ -1,0 +1,11 @@
+sample_id	group	subject	timepoint	site	age	sex
+SRR001	Control	S01	baseline	gut	32	F
+SRR002	Control	S02	baseline	gut	28	M
+SRR003	Control	S03	baseline	gut	45	F
+SRR004	Treatment	S04	baseline	gut	37	M
+SRR005	Treatment	S05	baseline	gut	29	F
+SRR006	Treatment	S06	baseline	gut	51	M
+SRR007	Control	S01	week4	gut	32	F
+SRR008	Control	S02	week4	gut	28	M
+SRR009	Treatment	S04	week4	gut	37	M
+SRR010	Treatment	S05	week4	gut	29	F

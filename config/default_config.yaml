@@ -1,0 +1,89 @@
+# Metagenomics Pipeline — Default Configuration
+# Override any section in your project-specific config file.
+
+pipeline:
+  threads: 4
+  verbose: false
+  dry_run: false
+
+quality_control:
+  enabled: true
+  tool: fastqc
+  multiqc: true
+
+preprocessing:
+  enabled: true
+  tool: fastp
+  adapter_trimming: true
+  quality_trimming: true
+  min_quality: 20
+  min_length: 50
+  window_size: 4
+  max_n_rate: 0.05
+
+host_filtering:
+  enabled: true
+  tool: bowtie2
+  reference_index: null
+  sensitivity: "--very-sensitive"
+  remove_unmapped: false
+
+taxonomic_profiling:
+  enabled: true
+  tool: kraken2
+  database: null
+  confidence: 0.1
+  bracken_enabled: true
+  bracken_level: S
+  levels:
+    - kingdom
+    - phylum
+    - class
+    - order
+    - family
+    - genus
+    - species
+
+diversity:
+  enabled: true
+  alpha_metrics:
+    - shannon
+    - simpson
+    - chao1
+    - observed
+    - faith_pd
+  beta_metrics:
+    - braycurtis
+    - jaccard
+    - unweighted_unifrac
+    - weighted_unifrac
+  ordination:
+    - pcoa
+    - nmds
+  rarefaction_depth: null
+
+statistics:
+  enabled: true
+  alpha: 0.05
+  correction_method: fdr_bh
+  min_prevalence: 0.1
+  min_abundance: 0.001
+  permanova_permutations: 999
+  differential_abundance_method: ancom-bc
+
+functional_profiling:
+  enabled: true
+  tool: humann
+  database: null
+  nucleotide_db: null
+  protein_db: null
+  uniref: uniref90
+  pathways: metacyc
+
+visualization:
+  enabled: true
+  format: png
+  dpi: 300
+  style: publication
+  top_taxa: 20
+  color_palette: tab20
