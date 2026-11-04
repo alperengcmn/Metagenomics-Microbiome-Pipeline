@@ -85,12 +85,17 @@ class SampleDetector:
         for path in fastq_files:
             r1_sample, r2_sample = self._classify_file(path)
             if r1_sample is not None:
-                forward[r1_sample] = path
+                sample_id, bucket = r1_sample, forward
             elif r2_sample is not None:
-                reverse[r2_sample] = path
+                sample_id, bucket = r2_sample, reverse
             else:
-                sample_id = self._infer_sample_id(path)
-                unpaired[sample_id] = path
+                sample_id, bucket = self._infer_sample_id(path), unpaired
+            if sample_id in bucket:
+                raise InputDetectionError(
+                    f"Duplicate sample ID detected: '{sample_id}' in files "
+                    f"'{bucket[sample_id].name}' and '{path.name}'"
+                )
+            bucket[sample_id] = path
 
         # Check for orphaned R1 / R2 files
         if forward or reverse:
