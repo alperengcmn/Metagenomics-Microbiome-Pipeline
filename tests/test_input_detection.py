@@ -89,3 +89,15 @@ class TestSampleDataclass:
         r1.write_bytes(b"")
         s = Sample(sample_id="test", forward=r1, is_paired=False)
         assert s.reads == [r1]
+
+@pytest.mark.parametrize("filenames", [
+    ["sample_R1.fastq", "sample_R1.fastq.gz", "sample_R2.fastq.gz"],
+    ["sample_R1.fastq.gz", "sample_R2.fastq", "sample_R2.fastq.gz"],
+    ["sample.fastq", "sample.fastq.gz"],
+])
+def test_duplicate_input_files_raise(tmp_path, filenames):
+    """Reject colliding inputs before dictionary assignment drops a file."""
+    for filename in filenames:
+        (tmp_path / filename).touch()
+    with pytest.raises(InputDetectionError, match="Duplicate sample ID"):
+        SampleDetector(tmp_path, logger).detect()
